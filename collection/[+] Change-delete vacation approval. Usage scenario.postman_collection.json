@@ -1,0 +1,530 @@
+{
+	"info": {
+		"_postman_id": "d81dece1-c4a8-4733-acc3-023cf714fa4d",
+		"name": "[+] Изменение/удаление согласования отпуска. Сценарий использования",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9079826",
+		"_collection_link": "https://martian-desert-113826.postman.co/workspace/vacation-dev~6c617265-39ee-45bd-9df9-55f5f7c6fa0e/collection/9079826-d81dece1-c4a8-4733-acc3-023cf714fa4d?action=share&creator=9079826&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Создать отпуск",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonResponce = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"vacation_id\", jsonResponce.id)\r",
+							"pm.environment.set(\"default_date_from\", jsonResponce.dateFrom)\r",
+							"pm.environment.set(\"default_date_to\", jsonResponce.dateTo)\r",
+							"pm.environment.set(\"default_vacation_type_Id\", jsonResponce.vacationType.id)\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_сollaborator}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"dateFrom\": \"01.08.2023\",\n  \"dateTo\": \"14.08.2023\",\n  \"vacationTypeId\": 1\n}",
+					"options": {
+						"raw": {
+							"headerFamily": "json",
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/vacation",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"vacation"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Created",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dateFrom\": \"<string>\",\n  \"dateTo\": \"<string>\",\n  \"vacationTypeId\": \"<long>\",\n  \"employeeId\": \"<long>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/vacation",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"vacation"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": \"<long>\",\n  \"dateFrom\": \"<date>\",\n  \"dateTo\": \"<date>\",\n  \"vacationType\": {\n    \"id\": \"<long>\",\n    \"value\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"vacationStatus\": \"<string>\",\n  \"overlapVacations\": [\n    {\n      \"id\": \"<long>\",\n      \"dateFrom\": \"<date>\",\n      \"dateTo\": \"<date>\",\n      \"vacationStatus\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"dateFrom\": \"<date>\",\n      \"dateTo\": \"<date>\",\n      \"vacationStatus\": \"<string>\"\n    }\n  ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Получение списка согласований отпуска Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/vacation/approval",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"vacation",
+						"approval"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/vacation/approval",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"vacation",
+								"approval"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"id\": \"<long>\",\n    \"vacationId\": \"<long>\",\n    \"dateFrom\": \"<date>\",\n    \"dateTo\": \"<date>\",\n    \"vacationApprovalStatus\": \"<string>\",\n    \"employeeProjectId\": \"<long>\",\n    \"approvingEmployee\": {\n      \"employeeId\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"status\": {\n        \"id\": \"<long>\",\n        \"status\": \"<string>\"\n      },\n      \"vacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"availableDays\": \"<long>\",\n      \"scheduledDays\": \"<long>\",\n      \"usedDays\": \"<long>\"\n    }\n  },\n  {\n    \"id\": \"<long>\",\n    \"vacationId\": \"<long>\",\n    \"dateFrom\": \"<date>\",\n    \"dateTo\": \"<date>\",\n    \"vacationApprovalStatus\": \"<string>\",\n    \"employeeProjectId\": \"<long>\",\n    \"approvingEmployee\": {\n      \"employeeId\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"status\": {\n        \"id\": \"<long>\",\n        \"status\": \"<string>\"\n      },\n      \"vacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"availableDays\": \"<long>\",\n      \"scheduledDays\": \"<long>\",\n      \"usedDays\": \"<long>\"\n    }\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "Получение согласование отпуска Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/vacation/approval/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"vacation",
+						"approval",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "<long>"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/vacation/approval/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"vacation",
+								"approval",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": \"<long>\",\n  \"vacationId\": \"<long>\",\n  \"dateFrom\": \"<date>\",\n  \"dateTo\": \"<date>\",\n  \"vacationApprovalStatus\": \"<string>\",\n  \"employeeProjectId\": \"<long>\",\n  \"approvingEmployee\": {\n    \"employeeId\": \"<long>\",\n    \"name\": \"<string>\",\n    \"surname\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"departmentId\": \"<long>\",\n    \"positionId\": \"<long>\",\n    \"email\": \"<string>\",\n    \"status\": {\n      \"id\": \"<long>\",\n      \"status\": \"<string>\"\n    },\n    \"vacations\": [\n      {\n        \"id\": \"<long>\",\n        \"dateFrom\": \"<date>\",\n        \"dateTo\": \"<date>\",\n        \"vacationType\": {\n          \"id\": \"<long>\",\n          \"value\": \"<string>\",\n          \"description\": \"<string>\"\n        },\n        \"vacationStatus\": \"<string>\",\n        \"overlapVacations\": [\n          {\n            \"id\": \"<long>\",\n            \"dateFrom\": \"<date>\",\n            \"dateTo\": \"<date>\",\n            \"vacationStatus\": \"<string>\"\n          },\n          {\n            \"id\": \"<long>\",\n            \"dateFrom\": \"<date>\",\n            \"dateTo\": \"<date>\",\n            \"vacationStatus\": \"<string>\"\n          }\n        ]\n      },\n      {\n        \"id\": \"<long>\",\n        \"dateFrom\": \"<date>\",\n        \"dateTo\": \"<date>\",\n        \"vacationType\": {\n          \"id\": \"<long>\",\n          \"value\": \"<string>\",\n          \"description\": \"<string>\"\n        },\n        \"vacationStatus\": \"<string>\",\n        \"overlapVacations\": [\n          {\n            \"id\": \"<long>\",\n            \"dateFrom\": \"<date>\",\n            \"dateTo\": \"<date>\",\n            \"vacationStatus\": \"<string>\"\n          },\n          {\n            \"id\": \"<long>\",\n            \"dateFrom\": \"<date>\",\n            \"dateTo\": \"<date>\",\n            \"vacationStatus\": \"<string>\"\n          }\n        ]\n      }\n    ],\n    \"availableDays\": \"<long>\",\n    \"scheduledDays\": \"<long>\",\n    \"usedDays\": \"<long>\"\n  }\n}"
+				}
+			]
+		},
+		{
+			"name": "Редактирование согласования отпуска Copy",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"vacationApprovalStatus\": \"NOT_APPROVED\"\n}",
+					"options": {
+						"raw": {
+							"headerFamily": "json",
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/vacation/approval/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"vacation",
+						"approval",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "<long>"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"vacationApprovalStatus\": \"NOT_APPROVED\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/vacation/approval/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"vacation",
+								"approval",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": \"<long>\",\n  \"vacationId\": \"<long>\",\n  \"dateFrom\": \"<date>\",\n  \"dateTo\": \"<date>\",\n  \"vacationApprovalStatus\": \"<string>\",\n  \"employeeProjectId\": \"<long>\",\n  \"approvingEmployee\": {\n    \"employeeId\": \"<long>\",\n    \"name\": \"<string>\",\n    \"surname\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"departmentId\": \"<long>\",\n    \"positionId\": \"<long>\",\n    \"email\": \"<string>\",\n    \"status\": {\n      \"id\": \"<long>\",\n      \"status\": \"<string>\"\n    },\n    \"vacations\": [\n      {\n        \"id\": \"<long>\",\n        \"dateFrom\": \"<date>\",\n        \"dateTo\": \"<date>\",\n        \"vacationType\": {\n          \"id\": \"<long>\",\n          \"value\": \"<string>\",\n          \"description\": \"<string>\"\n        },\n        \"vacationStatus\": \"<string>\",\n        \"overlapVacations\": [\n          {\n            \"id\": \"<long>\",\n            \"dateFrom\": \"<date>\",\n            \"dateTo\": \"<date>\",\n            \"vacationStatus\": \"<string>\"\n          },\n          {\n            \"id\": \"<long>\",\n            \"dateFrom\": \"<date>\",\n            \"dateTo\": \"<date>\",\n            \"vacationStatus\": \"<string>\"\n          }\n        ]\n      },\n      {\n        \"id\": \"<long>\",\n        \"dateFrom\": \"<date>\",\n        \"dateTo\": \"<date>\",\n        \"vacationType\": {\n          \"id\": \"<long>\",\n          \"value\": \"<string>\",\n          \"description\": \"<string>\"\n        },\n        \"vacationStatus\": \"<string>\",\n        \"overlapVacations\": [\n          {\n            \"id\": \"<long>\",\n            \"dateFrom\": \"<date>\",\n            \"dateTo\": \"<date>\",\n            \"vacationStatus\": \"<string>\"\n          },\n          {\n            \"id\": \"<long>\",\n            \"dateFrom\": \"<date>\",\n            \"dateTo\": \"<date>\",\n            \"vacationStatus\": \"<string>\"\n          }\n        ]\n      }\n    ],\n    \"availableDays\": \"<long>\",\n    \"scheduledDays\": \"<long>\",\n    \"usedDays\": \"<long>\"\n  }\n}"
+				}
+			]
+		},
+		{
+			"name": "Получение списка согласований отпуска по отпуску Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_сollaborator}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/vacation/approval/vacationApprovals/{{vacation_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"vacation",
+						"approval",
+						"vacationApprovals",
+						"{{vacation_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/vacation/approval/vacationApprovals/:vacationId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"vacation",
+								"approval",
+								"vacationApprovals",
+								":vacationId"
+							],
+							"variable": [
+								{
+									"key": "vacationId"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"id\": \"<long>\",\n    \"vacationId\": \"<long>\",\n    \"dateFrom\": \"<date>\",\n    \"dateTo\": \"<date>\",\n    \"vacationApprovalStatus\": \"<string>\",\n    \"employeeProjectId\": \"<long>\",\n    \"approvingEmployee\": {\n      \"employeeId\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"status\": {\n        \"id\": \"<long>\",\n        \"status\": \"<string>\"\n      },\n      \"vacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"availableDays\": \"<long>\",\n      \"scheduledDays\": \"<long>\",\n      \"usedDays\": \"<long>\"\n    }\n  },\n  {\n    \"id\": \"<long>\",\n    \"vacationId\": \"<long>\",\n    \"dateFrom\": \"<date>\",\n    \"dateTo\": \"<date>\",\n    \"vacationApprovalStatus\": \"<string>\",\n    \"employeeProjectId\": \"<long>\",\n    \"approvingEmployee\": {\n      \"employeeId\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"status\": {\n        \"id\": \"<long>\",\n        \"status\": \"<string>\"\n      },\n      \"vacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"availableDays\": \"<long>\",\n      \"scheduledDays\": \"<long>\",\n      \"usedDays\": \"<long>\"\n    }\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "Получение списка отпусков на согласование для TOP, ACCOUNT или HEAD Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/vacation/approval/head/:approvingEmployeeId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"vacation",
+						"approval",
+						"head",
+						":approvingEmployeeId"
+					],
+					"variable": [
+						{
+							"key": "approvingEmployeeId",
+							"value": "<long>"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/vacation/approval/head/:approvingEmployeeId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"vacation",
+								"approval",
+								"head",
+								":approvingEmployeeId"
+							],
+							"variable": [
+								{
+									"key": "approvingEmployeeId"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"id\": \"<long>\",\n    \"employee\": {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"departmentName\": \"<string>\",\n      \"employeeStatusId\": \"<long>\",\n      \"dismissalDate\": \"<string>\",\n      \"employmentDate\": \"<string>\",\n      \"birthDate\": \"<string>\"\n    },\n    \"vacation\": {\n      \"id\": \"<long>\",\n      \"dateFrom\": \"<date>\",\n      \"dateTo\": \"<date>\",\n      \"vacationType\": {\n        \"id\": \"<long>\",\n        \"value\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"vacationStatus\": \"<string>\",\n      \"overlapVacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationStatus\": \"<string>\"\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationStatus\": \"<string>\"\n        }\n      ]\n    },\n    \"vacationApprovalStatus\": \"<string>\",\n    \"employeeProjectId\": \"<long>\",\n    \"approvingEmployee\": {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"departmentName\": \"<string>\",\n      \"employeeStatusId\": \"<long>\",\n      \"dismissalDate\": \"<string>\",\n      \"employmentDate\": \"<string>\",\n      \"birthDate\": \"<string>\"\n    }\n  },\n  {\n    \"id\": \"<long>\",\n    \"employee\": {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"departmentName\": \"<string>\",\n      \"employeeStatusId\": \"<long>\",\n      \"dismissalDate\": \"<string>\",\n      \"employmentDate\": \"<string>\",\n      \"birthDate\": \"<string>\"\n    },\n    \"vacation\": {\n      \"id\": \"<long>\",\n      \"dateFrom\": \"<date>\",\n      \"dateTo\": \"<date>\",\n      \"vacationType\": {\n        \"id\": \"<long>\",\n        \"value\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"vacationStatus\": \"<string>\",\n      \"overlapVacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationStatus\": \"<string>\"\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationStatus\": \"<string>\"\n        }\n      ]\n    },\n    \"vacationApprovalStatus\": \"<string>\",\n    \"employeeProjectId\": \"<long>\",\n    \"approvingEmployee\": {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"departmentName\": \"<string>\",\n      \"employeeStatusId\": \"<long>\",\n      \"dismissalDate\": \"<string>\",\n      \"employmentDate\": \"<string>\",\n      \"birthDate\": \"<string>\"\n    }\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "Удаление согласования на отпуск",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}//vacation/approval/employeeProject/:employeeProjectId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"",
+						"vacation",
+						"approval",
+						"employeeProject",
+						":employeeProjectId"
+					],
+					"variable": [
+						{
+							"key": "employeeProjectId",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

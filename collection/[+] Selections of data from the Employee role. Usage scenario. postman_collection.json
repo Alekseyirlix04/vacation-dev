@@ -1,0 +1,740 @@
+{
+	"info": {
+		"_postman_id": "3d485537-b711-46a3-a0a6-f61afeb2cc5d",
+		"name": "[+] Выборки данных от роли Сотрудник. Сценарий использования",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9079826",
+		"_collection_link": "https://martian-desert-113826.postman.co/workspace/vacation-dev~6c617265-39ee-45bd-9df9-55f5f7c6fa0e/collection/9079826-3d485537-b711-46a3-a0a6-f61afeb2cc5d?action=share&creator=9079826&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "authorization",
+			"item": [
+				{
+					"name": "authorization Сотрудник",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponce = pm.response.json();\r",
+									"pm.environment.set(\"token_сollaborator\", jsonResponce.access_token)\r",
+									"//pm.collectionVariables.set(\"token\", jsonResponce.access_token)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "core",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "d11e83a3-95cc-460c-9289-511d36d3e3fb",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseAuthUrl}}/auth/realms/freeipa-realm/protocol/openid-connect/token",
+							"host": [
+								"{{baseAuthUrl}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"freeipa-realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "authorization РН",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponce = pm.response.json();\r",
+									"pm.environment.set(\"token_rn\", jsonResponce.access_token)\r",
+									"//pm.collectionVariables.set(\"token\", jsonResponce.access_token)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "aleksey.chugunov@irlix.ru",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "irlix2023",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "core",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "d11e83a3-95cc-460c-9289-511d36d3e3fb",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseAuthUrl}}/auth/realms/freeipa-realm/protocol/openid-connect/token",
+							"host": [
+								"{{baseAuthUrl}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"freeipa-realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Получить информацию о текущем сотруднике Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_сollaborator}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/employee/current",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"employee",
+						"current"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/employee/current",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"employee",
+								"current"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"employeeId\": \"<long>\",\n  \"name\": \"<string>\",\n  \"surname\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"departmentId\": \"<long>\",\n  \"positionId\": \"<long>\",\n  \"email\": \"<string>\",\n  \"status\": {\n    \"id\": \"<long>\",\n    \"status\": \"<string>\"\n  },\n  \"vacations\": [\n    {\n      \"id\": \"<long>\",\n      \"dateFrom\": \"<date>\",\n      \"dateTo\": \"<date>\",\n      \"vacationType\": {\n        \"id\": \"<long>\",\n        \"value\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"vacationStatus\": \"<string>\",\n      \"overlapVacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationStatus\": \"<string>\"\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationStatus\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"id\": \"<long>\",\n      \"dateFrom\": \"<date>\",\n      \"dateTo\": \"<date>\",\n      \"vacationType\": {\n        \"id\": \"<long>\",\n        \"value\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"vacationStatus\": \"<string>\",\n      \"overlapVacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationStatus\": \"<string>\"\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationStatus\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"availableDays\": \"<long>\",\n  \"scheduledDays\": \"<long>\",\n  \"usedDays\": \"<long>\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Получить список сотрудников с отпусками постранично с фильтрацией и поиском",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_сollaborator}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/employee?size=200",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"employee"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "<integer>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "<long>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "dateFrom",
+							"value": "<string>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "dateTo",
+							"value": "<string>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "vacationTypeId",
+							"value": "<long>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "vacationStatus",
+							"value": "<string>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "employeeFullName",
+							"value": "<string>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "departmentId",
+							"value": "<long>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "positionId",
+							"value": "<long>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "exceptEmployeeStatusId",
+							"value": "<long>,<long>",
+							"description": "(Required) ",
+							"disabled": true
+						},
+						{
+							"key": "size",
+							"value": "200"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "без параметров",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/employee?size=10&page=<integer>&id=<long>&dateFrom=<string>&dateTo=<string>&vacationTypeId=<long>&vacationStatus=<string>&employeeFullName=<string>&departmentId=<long>&positionId=<long>&exceptEmployeeStatusId=<long>,<long>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"employee"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10",
+									"description": "(Required) "
+								},
+								{
+									"key": "page",
+									"value": "<integer>",
+									"description": "(Required) "
+								},
+								{
+									"key": "id",
+									"value": "<long>",
+									"description": "(Required) "
+								},
+								{
+									"key": "dateFrom",
+									"value": "<string>",
+									"description": "(Required) "
+								},
+								{
+									"key": "dateTo",
+									"value": "<string>",
+									"description": "(Required) "
+								},
+								{
+									"key": "vacationTypeId",
+									"value": "<long>",
+									"description": "(Required) "
+								},
+								{
+									"key": "vacationStatus",
+									"value": "<string>",
+									"description": "(Required) "
+								},
+								{
+									"key": "employeeFullName",
+									"value": "<string>",
+									"description": "(Required) "
+								},
+								{
+									"key": "departmentId",
+									"value": "<long>",
+									"description": "(Required) "
+								},
+								{
+									"key": "positionId",
+									"value": "<long>",
+									"description": "(Required) "
+								},
+								{
+									"key": "exceptEmployeeStatusId",
+									"value": "<long>,<long>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"content\": [\n    {\n      \"employeeId\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"status\": {\n        \"id\": \"<long>\",\n        \"status\": \"<string>\"\n      },\n      \"vacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"availableDays\": \"<long>\",\n      \"scheduledDays\": \"<long>\",\n      \"usedDays\": \"<long>\"\n    },\n    {\n      \"employeeId\": \"<long>\",\n      \"name\": \"<string>\",\n      \"surname\": \"<string>\",\n      \"middleName\": \"<string>\",\n      \"departmentId\": \"<long>\",\n      \"positionId\": \"<long>\",\n      \"email\": \"<string>\",\n      \"status\": {\n        \"id\": \"<long>\",\n        \"status\": \"<string>\"\n      },\n      \"vacations\": [\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"id\": \"<long>\",\n          \"dateFrom\": \"<date>\",\n          \"dateTo\": \"<date>\",\n          \"vacationType\": {\n            \"id\": \"<long>\",\n            \"value\": \"<string>\",\n            \"description\": \"<string>\"\n          },\n          \"vacationStatus\": \"<string>\",\n          \"overlapVacations\": [\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            },\n            {\n              \"id\": \"<long>\",\n              \"dateFrom\": \"<date>\",\n              \"dateTo\": \"<date>\",\n              \"vacationStatus\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"availableDays\": \"<long>\",\n      \"scheduledDays\": \"<long>\",\n      \"usedDays\": \"<long>\"\n    }\n  ],\n  \"total\": \"<long>\"\n}"
+				},
+				{
+					"name": "без токена",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/employee?size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"employee"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10",
+									"description": "(Required) "
+								},
+								{
+									"key": "page",
+									"value": "<integer>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "<long>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "dateFrom",
+									"value": "<string>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "dateTo",
+									"value": "<string>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "vacationTypeId",
+									"value": "<long>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "vacationStatus",
+									"value": "<string>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "employeeFullName",
+									"value": "<string>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "departmentId",
+									"value": "<long>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "positionId",
+									"value": "<long>",
+									"description": "(Required) ",
+									"disabled": true
+								},
+								{
+									"key": "exceptEmployeeStatusId",
+									"value": "<long>,<long>",
+									"description": "(Required) ",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Получить список всех направлений",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_сollaborator}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/department",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"department"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/department",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"department"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"value\": \"<string>\"\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "Получение списка отпусков за период Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_сollaborator}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/vacation/overlap?dateFrom={{default_date_from}}&dateTo={{default_date_to}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"vacation",
+						"overlap"
+					],
+					"query": [
+						{
+							"key": "dateFrom",
+							"value": "{{default_date_from}}",
+							"description": "(Required) "
+						},
+						{
+							"key": "dateTo",
+							"value": "{{default_date_to}}",
+							"description": "(Required) "
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/vacation/overlap?dateFrom=<string>&dateTo=<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"vacation",
+								"overlap"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "<string>",
+									"description": "(Required) "
+								},
+								{
+									"key": "dateTo",
+									"value": "<string>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"id\": \"<long>\",\n    \"dateFrom\": \"<date>\",\n    \"dateTo\": \"<date>\",\n    \"vacationType\": {\n      \"id\": \"<long>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    \"vacationStatus\": \"<string>\",\n    \"overlapVacations\": [\n      {\n        \"id\": \"<long>\",\n        \"dateFrom\": \"<date>\",\n        \"dateTo\": \"<date>\",\n        \"vacationStatus\": \"<string>\"\n      },\n      {\n        \"id\": \"<long>\",\n        \"dateFrom\": \"<date>\",\n        \"dateTo\": \"<date>\",\n        \"vacationStatus\": \"<string>\"\n      }\n    ]\n  },\n  {\n    \"id\": \"<long>\",\n    \"dateFrom\": \"<date>\",\n    \"dateTo\": \"<date>\",\n    \"vacationType\": {\n      \"id\": \"<long>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    \"vacationStatus\": \"<string>\",\n    \"overlapVacations\": [\n      {\n        \"id\": \"<long>\",\n        \"dateFrom\": \"<date>\",\n        \"dateTo\": \"<date>\",\n        \"vacationStatus\": \"<string>\"\n      },\n      {\n        \"id\": \"<long>\",\n        \"dateFrom\": \"<date>\",\n        \"dateTo\": \"<date>\",\n        \"vacationStatus\": \"<string>\"\n      }\n    ]\n  }\n]"
+				}
+			]
+		}
+	]
+}
